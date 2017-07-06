@@ -89,7 +89,7 @@ class _AsyncoreDispatcher(asyncore.dispatcher):
         assert not self._notified
 
     def loop(self, timeout):
-        asyncore.loop(timeout=timeout, use_poll=True, map=_dispatcher_map, count=1)
+        asyncore.loop(timeout=timeout, use_poll=False, map=_dispatcher_map, count=1)
 
 
 class _AsyncorePipeDispatcher(_AsyncoreDispatcher):
@@ -321,7 +321,6 @@ class AsyncoreConnection(Connection, asyncore.dispatcher):
             if self.is_closed:
                 return
             self.is_closed = True
-
         log.debug("Closing connection (%s) to %s", id(self), self.host)
         self._writable = False
         self._readable = False
